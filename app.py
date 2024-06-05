@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 import time
 
 from config import Config
-from filter import CreateRequest
+from user_selection import CreateRequest
 
 
 options = webdriver.FirefoxOptions()
@@ -24,14 +24,12 @@ cr = CreateRequest(driver, wait, EC, By)
 
 def main():
     try:
-        cr.category_selection()
+        cr.parsing_setup(True)
     except Exception as ex:
         print(f'ERROR:\n{ex}')
 
     finally:
-        time.sleep(3)
-        driver.close()
-        driver.quit()
+        cr.driver_quiting()
 
 
 if __name__ == '__main__':
