@@ -144,7 +144,7 @@ class CreateRequest():
 
                 data = button.find_elements(self.By.CLASS_NAME, 'sort-menu__sub')
                 data_list = data[0].text.split('\n')[::2]
-                print(data_list)
+                
                 if len(data_list) <= 1:
                     return
                 print(f"\nPick the manufacturer you want to parse:")
@@ -193,11 +193,14 @@ class CreateRequest():
 
 
     def request_confirmation(self):
-        print(f'\n\nLanguage: {self.request[0]}\n\nCategory: {self.request[1]}\nSubcategory: {self.request[2]}\n- {self.request[3]}\nManufacturer: {self.request[4]}')
+        print(f'\n----------- REQUEST -----------\nLanguage: {self.request[0]}\n\nCategory: {self.request[1]}\nSubcategory: {self.request[2]}\n- {self.request[3]}\nManufacturer: {self.request[4]}\n-------------------------------')
         answer = input('\nStart parsing? Yes(y) / No(N) / Exit(e): ')
         if answer == 'N':
             self.parsing_setup(False)
         elif answer == 'e':
             self.driver_quiting()
-        else:
+        elif answer == 'y':
             pass
+        else:
+            print("Wrong answer!")
+            self.request_confirmation()

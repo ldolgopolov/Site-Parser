@@ -1,13 +1,12 @@
-import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
-import time
 
 from config import Config
 from user_selection import CreateRequest
+from db import Database
 
 
 options = webdriver.FirefoxOptions()
@@ -20,10 +19,12 @@ wait = WebDriverWait(driver, 240)
 
 
 cr = CreateRequest(driver, wait, EC, By)
+db = Database()
 
 
 def main():
     try:
+        db.create_database()
         cr.parsing_setup(True)
     except Exception as ex:
         print(f'ERROR:\n{ex}')
