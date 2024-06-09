@@ -15,7 +15,7 @@ options = webdriver.FirefoxOptions()
 webdriver_path = Service(Config.PATH)
 driver = webdriver.Firefox(options=options, service=webdriver_path)
 
-wait = WebDriverWait(driver, 240)
+wait = WebDriverWait(driver, 30)
 
 
 cr = CreateRequest(driver, wait, EC, By)
@@ -25,7 +25,7 @@ db = Database()
 def main():
     try:
         db.create_database()
-        cr.parsing_setup(True)
+        cr.parsing_setup(accept_cookies=True)
     except Exception as ex:
         print(f'ERROR:\n{ex}')
 

@@ -1,5 +1,6 @@
 from config import Config
 import time
+from parsing import Parser
 
 
 class CreateRequest():
@@ -34,15 +35,19 @@ class CreateRequest():
 
 
     def cookies_acception(self):
-        self.wait.until(self.EC.presence_of_element_located((self.By.XPATH, f"/html/body/div[1]/div/div/div[3]/button[3]")))
-        time.sleep(1)
-        self.driver.find_element(self.By.XPATH, f"/html/body/div[1]/div/div/div[3]/button[3]").click()
-
+        try:
+            self.wait.until(self.EC.presence_of_element_located((self.By.XPATH, f"/html/body/div[1]/div/div/div[3]/button[3]")))
+            time.sleep(2)
+            self.driver.find_element(self.By.XPATH, f"/html/body/div[1]/div/div/div[3]/button[3]").click()
+        except Exception:
+            print('Error with cookies')
+            time.sleep(5)
+            self.cookies_acception()
     
-    def parsing_setup(self, x):
+    def parsing_setup(self, accept_cookies):
         self.driver.get(self.url_page)
         time.sleep(3)
-        if x == True:
+        if accept_cookies == True:
             self.cookies_acception()
         self.select_lang()
         self.category_selection()
@@ -196,11 +201,15 @@ class CreateRequest():
         print(f'\n----------- REQUEST -----------\nLanguage: {self.request[0]}\n\nCategory: {self.request[1]}\nSubcategory: {self.request[2]}\n- {self.request[3]}\nManufacturer: {self.request[4]}\n-------------------------------')
         answer = input('\nStart parsing? Yes(y) / No(N) / Exit(e): ')
         if answer == 'N':
-            self.parsing_setup(False)
+            self.request.clear()
+            self.parsing_setup(accept_cookies=False)
         elif answer == 'e':
             self.driver_quiting()
         elif answer == 'y':
-            pass
+            pr = Parser(self.driver, self.wait, self.EC, self.By, manufacturer=self.request[4], category=self.request[2], lang=self.request[0])
+            pr.parsing_process()
+            self.request.clear()
+
         else:
             print("Wrong answer!")
             self.request_confirmation()
