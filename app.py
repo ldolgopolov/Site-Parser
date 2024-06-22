@@ -15,7 +15,7 @@ options = webdriver.FirefoxOptions()
 webdriver_path = Service(Config.PATH)
 driver = webdriver.Firefox(options=options, service=webdriver_path)
 
-wait = WebDriverWait(driver, 30)
+wait = WebDriverWait(driver, 240)
 
 
 cr = CreateRequest(driver, wait, EC, By)

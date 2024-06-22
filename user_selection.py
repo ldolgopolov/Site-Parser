@@ -149,28 +149,29 @@ class CreateRequest():
 
                 data = button.find_elements(self.By.CLASS_NAME, 'sort-menu__sub')
                 data_list = data[0].text.split('\n')[::2]
-                
-                if len(data_list) <= 1:
-                    return
-                print(f"\nPick the manufacturer you want to parse:")
-                j = 1
-                for i in data_list: 
-                    print(f"{j}. {i}")
-                    j += 1
+                if len(data_list) > 1:
+                    print(f"\nPick the manufacturer you want to parse:")
+                    j = 1
+                    for i in data_list: 
+                        print(f"{j}. {i}")
+                        j += 1
 
-                answer = []
-                self.check_answer(answer, j)
-                self.request.append(data_list[answer[0]-1])
-                
-                for position in sort_buttons:
-                    if position.text.split('\n')[0] == data_list[answer[0]-1]:
-                        position.click()
-                        if '...Show all options' in data_list[answer[0]-1] or '...Rādīt visas iespējas' in data_list[answer[0]-1] or '...Показать все варианты' in data_list[answer[0]-1]:
-                            self.request.pop()
-                            self.check_all_options()
-                        time.sleep(3)
-                        self.request_confirmation()
-                        break
+                    answer = []
+                    self.check_answer(answer, j)
+                    self.request.append(data_list[answer[0]-1])
+                    
+                    for position in sort_buttons:
+                        if position.text.split('\n')[0] == data_list[answer[0]-1]:
+                            position.click()
+                            if '...Show all options' in data_list[answer[0]-1] or '...Rādīt visas iespējas' in data_list[answer[0]-1] or '...Показать все варианты' in data_list[answer[0]-1]:
+                                self.request.pop()
+                                self.check_all_options()
+                            time.sleep(3)
+                            self.request_confirmation()
+                            break
+                else:
+                    self.request.append(data_list[0])
+                    self.request_confirmation()
                 break
 
     def check_all_options(self):

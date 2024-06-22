@@ -42,16 +42,15 @@ class Parser():
                     self.item_data.append(self.manufacturer)
                     # Append item's category
                     self.item_data.append(self.category)
-                    print(1)
+                    
                     if db.check_availability_item(loaded_data[0][i].text) == False:
                         # Append item's image
                         self.get_item_image(loaded_data[4], index=i)
-                        print(2)
+                        
                         db.add_new_item(self.item_data, self.lang)
                         print(f"Item number: {i+1}  Item: {self.item_data[1]}")
                         print('Parsed!')
                     else:
-                        print(3)
                         db.check_uniqueness_item_values(loaded_data[0][i].text, self.item_data, self.lang)
                         print(f"Item number: {i+1}  Item: {self.item_data[0]}")
                     self.item_data.clear()
@@ -113,3 +112,5 @@ class Parser():
             return 'On order'
         elif status_item == 'Tikai veikalos' or status_item == 'Только в магазинах':
             return 'Only available in shops'
+        else:
+            return status_item
